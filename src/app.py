@@ -1,8 +1,3 @@
-import streamlit as st
-import pickle
-import numpy as np
-
-# Cargar el modelo guardado
 
 import streamlit as st
 import pandas as pd
@@ -13,7 +8,7 @@ import numpy as np
 with open('/workspace/ML-Flask/models/modelo_reg_log.pkl', 'rb') as file:
     model = pickle.load(file)
 
-# Título de la aplicación
+# Título
 st.title("🚢 ¿Sobrevivirías al Titanic? 🚢")
 
 # Formulario
@@ -25,13 +20,12 @@ with st.form(key='titanic_form'):
     pclass = st.selectbox("Clase del boleto:", [1, 2, 3])
     embarked = st.selectbox("¿Desde qué puerto saldrías?", ["Southampton (UK)", "Queenstown (IR)", "Cherbourg (FR)"])
 
-    # Convertir sexo a numérico
+    # Convertir a numérico
     sex_n = 1 if sex == "Mujer" else 0
-    
-    # Convertir puerto de embarque a numérico
+
     embarked_n = 0 if embarked == "Southampton (UK)" else 1 if embarked == "Cherbourg (FR)" else 2
     
-    # Crear un DataFrame con los datos ingresados, en el mismo orden que se utilizó para entrenar el modelo
+    # Crear un DataFrame con los datos ingresados, en el mismo orden que se utilizó para entrenar el modelo porque si no me daba error 
     input_data = pd.DataFrame({
         'Pclass': [pclass],
         'Age': [age],
@@ -41,14 +35,15 @@ with st.form(key='titanic_form'):
         'Familiares': [familiares]
     })
 
-    # Botón para predecir
+    # Botón 
     submit_button = st.form_submit_button("Predecir Supervivencia")
 
 if submit_button:
-    # Realizar la predicción
+
+    #PRedecir 
     prediction = model.predict(input_data)
 
-    # Mostrar el resultado
+    # Resultado
     if prediction[0] == 1:
         st.success("🥳¡Sobrevives!🥳")
     else:
